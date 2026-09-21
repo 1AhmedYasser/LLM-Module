@@ -14,6 +14,7 @@ import UserManagement from 'pages/UserManagement';
 import TestLLM from 'pages/TestModel';
 import TestProductionLLM from 'pages/TestProductionLLM';
 import PromptConfigurations from 'pages/PromptConfigurations';
+import useTabCloseEffect from 'hooks/useTabCloseEffects';
 
 const App: FC = () => {
   const navigate = useNavigate();
@@ -42,6 +43,8 @@ const App: FC = () => {
     }
   }, [isLoading, data, navigate, hasRedirected, location.pathname]);
 
+  useTabCloseEffect();
+  
   return (
     <>
       {isLoading ? (
