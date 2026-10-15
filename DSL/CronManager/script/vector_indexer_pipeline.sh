@@ -46,6 +46,10 @@ echo "[PACKAGES] All packages installed successfully"
 
 export PYTHONPATH="/app:/app/src:/app/src/vector_indexer:$PYTHONPATH"
 
+# Service endpoint URLs; also exports RAG_SEARCH_CONSTANTS so the Python
+# process below resolves the same constants.ini.
+source /app/scripts/load_constants.sh
+
 [ ! -f "$PYTHON_SCRIPT" ] && { echo "[ERROR] Python script not found"; exit 1; }
 
 echo "[FOUND] Python script at: $PYTHON_SCRIPT"
@@ -78,6 +82,9 @@ elif [ $PYTHON_EXIT_CODE -eq 2 ]; then
 elif [ $PYTHON_EXIT_CODE -eq 130 ]; then
     echo "[INTERRUPTED] Vector indexer was interrupted by user"
     exit 130
+elif [ $PYTHON_EXIT_CODE -eq 3 ]; then
+    echo "[SKIPPED] Existing indexer run for this dataset was already in progress"
+    exit 0
 else
     echo "[ERROR] Vector indexer failed with exit code: $PYTHON_EXIT_CODE"
     exit $PYTHON_EXIT_CODE
