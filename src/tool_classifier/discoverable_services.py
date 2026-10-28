@@ -43,8 +43,7 @@ def keep_discoverable(
     filtered = [
         service
         for service in services
-        if str(service.get("service_id", service.get("serviceId")))
-        in discoverable_ids
+        if str(service.get("service_id", service.get("serviceId"))) in discoverable_ids
     ]
 
     if len(filtered) < len(services):
